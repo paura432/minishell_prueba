@@ -14,10 +14,7 @@
 
 void	handle_signal(int sign)
 {
-	if (sign == SIGINT)
-	{
-		printf("\nMinishell->");
-	}
+	printf("\nMinishell->");
 }
 
 void	signal_detecter(void)
@@ -45,11 +42,16 @@ int	main(int ac, char **av, char **env)
 	{
 		mini->input = readline("Minishell->");
 		if (mini->input == 0)
-			return (printf("logout\n"), 0);
-		mini->token = get_tokens(mini->input);
-		add_history(mini->input);
-		go_comands(mini, env);
-		free(mini->token);
+			return (free(mini), printf("logout\n"), 0);
+		if(mini->input[0] != '\0')
+		{
+			mini->token = get_tokens(mini->input);
+			add_history(mini->input);
+			go_comands(mini, env);
+			free(mini->token);
+		}
+		free(mini->input);
 	}
+	free(mini);
 	return (0);
 }

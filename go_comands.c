@@ -94,10 +94,9 @@ int	redirecctions_comand(t_mini *mini, char **env)
 	bol = 1;
 	while (mini->token != 0)
 	{
-		if (mini->token->next->str[0] == '>'
-			|| mini->token->next->str[0] == '<' || mini->token->str[0] == '>'
-			|| mini->token->str[0] == '<')
-			while (mini->token->next != 0 && mini->token->next->str[0] != '|')
+		if (mini->token->next && (mini->token->str[0] == '>' || mini->token->str[0] == '<'
+			|| mini->token->next->str[0] == '>' || mini->token->next->str[0] == '<'))
+			while (mini->token->next != 0 && mini->token->str[0] != '|')
 				mini->token = mini->token->next;
 		else if (mini->token != 0
 			&& mini->token->str[0] != '|' && no_comands(mini->token->str))
@@ -106,7 +105,7 @@ int	redirecctions_comand(t_mini *mini, char **env)
 			while (mini->token->str[i] != 0
 				&& (mini->token->str[i] != '<' || mini->token->str[i] != '>'))
 				i++;
-			if (mini->token->str[i] != '<' || mini->token->str[i] != '>')
+			if (mini->token->str[i] && (mini->token->str[i] != '<' || mini->token->str[i] != '>'))
 				created_comands(mini->token->str, mini, env);
 		}
 		else if (mini->token != 0 && mini->token->str[0] != '|'
@@ -116,3 +115,5 @@ int	redirecctions_comand(t_mini *mini, char **env)
 	}
 	return (bol);
 }
+
+//ls | akjjs > hibnj | jnlmk
