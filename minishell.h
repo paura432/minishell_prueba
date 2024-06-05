@@ -85,6 +85,8 @@ typedef struct mini_parse
 void		handle_signal(int sign);
 void		signal_detecter(void);
 int			invalid_input(t_mini *mini, char *input, char **env, int i);
+void		free_token(t_token *start);
+void		*ft_memdel(void *ptr);
 
 //invalid_input.c
 void		free_split(char **inf);
@@ -98,6 +100,7 @@ int			compound_comand(t_mini *mini, char **env);
 int			pipe_comand(t_mini *mini, char **env);
 int			parse(t_mini *mini);
 int			operators_comand(t_mini *mini, char **env);
+int			redirecctions_extend(t_mini *mini, int *i);
 int			redirecctions_comand(t_mini *mini, char **env);
 
 //mini_utils.c

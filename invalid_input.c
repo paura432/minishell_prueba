@@ -28,7 +28,7 @@ int	change_path(char *paths, char *cmd)
 	char	*path;
 
 	if (cmd)
-	tmp_paths = ft_split(paths, ':');
+		tmp_paths = ft_split(paths, ':');
 	while (*tmp_paths)
 	{
 		tmp = ft_strjoin(*tmp_paths, "/");

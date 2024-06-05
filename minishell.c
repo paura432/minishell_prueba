@@ -12,6 +12,31 @@
 
 #include "minishell.h"
 
+void	*ft_memdel(void *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
+	return (NULL);
+}
+
+void	free_token(t_token *start)
+{
+	while (start && start->next)
+	{
+		ft_memdel(start->str);
+		start = start->next;
+		ft_memdel(start->prev);
+	}
+	if (start)
+	{
+		ft_memdel(start->str);
+		ft_memdel(start);
+	}
+}
+
 void	handle_signal(int sign)
 {
 	printf("\nMinishell->");
@@ -43,14 +68,13 @@ int	main(int ac, char **av, char **env)
 		mini->input = readline("Minishell->");
 		if (mini->input == 0)
 			return (free(mini), printf("logout\n"), 0);
-		if(mini->input[0] != '\0')
+		if (mini->input[0] != '\0')
 		{
 			mini->token = get_tokens(mini->input);
 			add_history(mini->input);
 			go_comands(mini, env);
-			free(mini->token);
+			free_token(mini->token);
 		}
-		free(mini->input);
 	}
 	free(mini);
 	return (0);

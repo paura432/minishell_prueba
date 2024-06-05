@@ -18,12 +18,6 @@ int	go_comands(t_mini *mini, char **env)
 	int	i;
 
 	i = 0;
-	// while(mini->token)
-	// {
-	// 	printf("%s\n", mini->token->str);
-	// 	mini->token = mini->token->next;
-	// }
-	// return 0;
 	comands = parse(mini);
 	while (mini->token->prev != 0)
 		mini->token = mini->token->prev;
@@ -86,28 +80,31 @@ int	pipe_comand(t_mini *mini, char **env)
 	return (bol);
 }
 
+int	redirecctions_extend(t_mini *mini, int *i)
+{
+	*i = 0;
+	while (mini->token->str[i] != 0
+		&& (mini->token->str[i] != '<' || mini->token->str[i] != '>'))
+		i++;
+	if (mini->token->str[i] && (mini->token->str[i] != '<'
+			|| mini->token->str[i] != '>'))
+		created_comands(mini->token->str, mini, env);
+}
+
 int	redirecctions_comand(t_mini *mini, char **env)
 {
 	int	bol;
 	int	i;
 
 	bol = 1;
+	i = 0;
 	while (mini->token != 0)
 	{
-		if (mini->token->next && (mini->token->str[0] == '>' || mini->token->str[0] == '<'
-			|| mini->token->next->str[0] == '>' || mini->token->next->str[0] == '<'))
-			while (mini->token->next != 0 && mini->token->str[0] != '|')
-				mini->token = mini->token->next;
+		while (mini->token->next != 0 && mini->token->str[0] != '|')
+			mini->token = mini->token->next;
 		else if (mini->token != 0
 			&& mini->token->str[0] != '|' && no_comands(mini->token->str))
-		{
-			i = 0;
-			while (mini->token->str[i] != 0
-				&& (mini->token->str[i] != '<' || mini->token->str[i] != '>'))
-				i++;
-			if (mini->token->str[i] && (mini->token->str[i] != '<' || mini->token->str[i] != '>'))
-				created_comands(mini->token->str, mini, env);
-		}
+			redirecctions_extend(mini, i);
 		else if (mini->token != 0 && mini->token->str[0] != '|'
 			&& !invalid_input(mini, mini->token->str, env, 0))
 			bol = 0;
