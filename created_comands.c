@@ -68,6 +68,9 @@ int	export_comand(char *input, t_mini *mini)
 	int	j;
 
 	i = 0;
+	while (mini->info[i])
+		printf("%s\n", mini->info[i++]);
+	i = 0;
 	while ((input[i] > 8 && input[i] < 13) || input[i] == 32)
 		i++;
 	if (input[i] == '$')

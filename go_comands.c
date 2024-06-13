@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 19:26:08 by pramos            #+#    #+#             */
-/*   Updated: 2024/04/20 23:39:19 by marvin           ###   ########.fr       */
+/*   Updated: 2024/06/11 18:25:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,11 @@ int	pipe_comand(t_mini *mini, char **env)
 	return (bol);
 }
 
-int	redirecctions_extend(t_mini *mini, int *i)
+int	redirecctions_extend(t_mini *mini, char **env)
 {
-	*i = 0;
+	int	i;
+
+	i = 0;
 	while (mini->token->str[i] != 0
 		&& (mini->token->str[i] != '<' || mini->token->str[i] != '>'))
 		i++;
@@ -94,18 +96,20 @@ int	redirecctions_extend(t_mini *mini, int *i)
 int	redirecctions_comand(t_mini *mini, char **env)
 {
 	int	bol;
-	int	i;
 
 	bol = 1;
-	i = 0;
 	while (mini->token != 0)
 	{
-		while (mini->token->next != 0 && mini->token->str[0] != '|')
-			mini->token = mini->token->next;
-		else if (mini->token != 0
+
+		if (mini->token->next && (mini->token->next->str[0] == '>'
+			|| mini->token->next->str[0] == '<' || mini->token->str[0] == '>'
+			|| mini->token->str[0] == '<'))
+			while (mini->token != 0 && mini->token->str[0] != '|')
+				mini->token = mini->token->next;
+		if (mini->token != 0
 			&& mini->token->str[0] != '|' && no_comands(mini->token->str))
-			redirecctions_extend(mini, i);
-		else if (mini->token != 0 && mini->token->str[0] != '|'
+			redirecctions_extend(mini, env);
+		if (mini->token != 0 && mini->token->str[0] != '|'
 			&& !invalid_input(mini, mini->token->str, env, 0))
 			bol = 0;
 		mini->token = mini->token->next;

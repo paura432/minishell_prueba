@@ -6,12 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 23:45:30 by pramos            #+#    #+#             */
-/*   Updated: 2024/04/16 09:47:38 by marvin           ###   ########.fr       */
+/*   Updated: 2024/06/11 15:08:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include "Libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -81,6 +82,15 @@ typedef struct mini_parse
 	char			*index;
 }				t_mini_parse;
 
+
+typedef struct	s_expansions
+{
+	char			*new_arg;
+	int				i;
+	int				j;
+}	t_expansions;
+
+
 //minishell.c
 void		handle_signal(int sign);
 void		signal_detecter(void);
@@ -100,7 +110,7 @@ int			compound_comand(t_mini *mini, char **env);
 int			pipe_comand(t_mini *mini, char **env);
 int			parse(t_mini *mini);
 int			operators_comand(t_mini *mini, char **env);
-int			redirecctions_extend(t_mini *mini, int *i);
+int			redirecctions_extend(t_mini *mini, char **env);
 int			redirecctions_comand(t_mini *mini, char **env);
 
 //mini_utils.c
@@ -136,5 +146,59 @@ void		type_token(t_token *token, int separator);
 int			next_alloc(char *line, int *i);
 int 		ft_separator(char c);
 int			ft_is_space(char *line);
+
+//joseph
+t_env     *getminienv();
+int				ft_cd(char **args, t_env *env);
+int		ft_export2(char *args, t_env *env);
+int     main(int arc, char **argc, char **envp);
+t_token *prev_token(t_token *token, int skip);
+t_token *next_node_token(t_token *token, int skip);
+void parse_token(t_mini *mini);
+void	execute(char *str, char **envp);
+t_token *get_tokens(char *line);
+void    ft_jump_space(const char *str, int *i);
+void	error(void);
+int is_types(t_token *token, char *types);
+void type_token(t_token *token, int separator);
+t_token *next_exe(t_token *token, int skip);
+int is_type(t_token *token, int arguments);
+char	*find_path(char *cmd, char **envp);
+void	ft_clean(int i, char **paths);
+void type_exe(t_mini *mini,t_token *token);
+int    get_env(t_mini *minishell, char **envp);
+void    increment_shlv(t_env *env);
+t_token *next_token(char *line, int *i);
+char	**cmd_tab(t_token *start);
+char		*get_env_name(char *dest, const char *src);
+int next_alloc(char *line, int *i);
+char			*expansions(char *arg, t_env *env, int ret);
+int		has_pipe(t_token *token);
+void	mini_exit(t_mini *mini, char **cmd);
+int		is_builtin(char *command);
+int		exec_builtin(char **args, t_mini *mini);
+char	**cmd_tab(t_token *start);
+void	free_tab(char **tab);
+
+int		get_var_len(const char *arg, int pos, t_env *env, int ret);
+int		arg_alloc_len(const char *arg, t_env *env, int ret);
+void		insert_var(t_expansions *ex, char *arg, t_env *env, int ret);
+char	*get_var_value(const char *arg, int pos, t_env *env, int ret);
+int		is_env_char(int c);
+char	*get_env_value(char *arg, t_env *env);
+void ft_close(int fd);
+void	free_token(t_token *start);
+char	*space_alloc(char *line);
+
+int				ft_echo(char **args);
+int		ft_pwd(void);
+int		ft_env(t_env *env);
+int		ft_export(char **args, t_env *env);
+int	ft_unset(char **args, t_mini *mini);
+int	cmd_bin(char **cmd, t_env *env, t_mini *mini);
+int	in_env(t_env *env, char *arg);
+int	add_env(const char *arg, t_env *env);
+int		quotes(char *line, int index);
+int		is_sep(char *line, int i);
 
 #endif

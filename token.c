@@ -39,7 +39,9 @@ t_token	*get_tokens(char *line)
 	ft_jump_space(line, &i);
 	while (line[i] != 0)
 	{
+		printf("dfghjk\n");
 		next = next_token(line, &i);
+		printf("%s\n", next->str);
 		next->prev = prev;
 		if (prev)
 			prev->next = next;
@@ -47,6 +49,7 @@ t_token	*get_tokens(char *line)
 		ft_jump_space(line, &i);
 		// if (ft_separator(next->str[0]) && line[i] == 0)
 		// 	printf(">");
+		printf("dfghjk2\n");
 	}
 	if (next)
 		next->next = NULL;
@@ -80,7 +83,7 @@ t_token	*next_token(char *line, int *i)
 	int		j;
 
 	j = 0;
-	token = malloc(sizeof(t_token);
+	token = malloc(sizeof(t_token));
 	if (!token || !(token->str = malloc(sizeof(char) * next_alloc(line, i))))
 		return (NULL);
 	if (line[*i] != 0 && ft_separator(line[*i]))
