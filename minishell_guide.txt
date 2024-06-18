@@ -85,3 +85,25 @@ pau@DESKTOP-2VM55JD:/mnt/c/Users/paura/Desktop/42/42$ ls |
 comprobar cuando se expande la pipe a null
 42/minishell$ env fghjk |
 >
+
+cosas a hacer
+
+variable puntero para determi nar si esta bien el prompt
+
+pramos@c1r13s5:~/Desktop/42$ echo hola |k,gorkg,r | mgrkmrk |cat | ls
+comandos_visual  ft_printf	libft		  philosofers  so_long
+first_mini	 get_next_line	minishell_prueba  push_swap
+mgrkmrk: command not found
+k,gorkg,r: command not found
+
+lo que le paso a joseph no es argv es mi input por si hay que modificarlo
+
+Minishell->ls > fghjk
+ls
+>
+fghjk
+ThreadSanitizer:DEADLYSIGNAL
+
+$variables por defecto solucionar
+
+

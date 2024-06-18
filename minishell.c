@@ -75,6 +75,7 @@ int	main(int ac, char **av, char **env)
 			go_comands(mini, env);
 			free_token(mini->token);
 		}
+		
 	}
 	free(mini);
 	return (0);
